@@ -27,7 +27,8 @@ class Product extends Component {
         if(this.state.loading) {
             productList = <h3>Loading...</h3>
         } else {
-            productList = <ProductList/>
+            productList = <ProductList 
+            products={this.state.products}/>
         }
         return (
             <div>
