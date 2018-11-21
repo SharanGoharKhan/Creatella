@@ -9,21 +9,15 @@ class ProductList extends Component {
         filters: [
             {
                 id: 0,
-                title: 'size',
-                selected: false,
-                key: 'location'
+                title: 'size'
             },
             {
                 id: 1,
-                title: 'price',
-                selected: false,
-                key: 'location'
+                title: 'price'
             },
             {
                 id: 2,
-                title: 'id',
-                selected: false,
-                key: 'location'
+                title: 'id'
             }
         ]
     }

@@ -29,7 +29,7 @@ class Product extends Component {
             this.lastActiveTime = Date.now();
         };
     }
-    CheckIdleTime = () => {
+    checkIdleTime = () => {
         let dateNowTime = new Date().getTime();
         let lastActiveTime = new Date(this.lastActiveTime).getTime();
         let remTime = Math.floor((dateNowTime - lastActiveTime) / 1000);
@@ -47,7 +47,7 @@ class Product extends Component {
     }
     componentDidMount() {
         this.listenToWindowEvents()
-        window.setInterval(this.CheckIdleTime, this.idleTime*1000);
+        window.setInterval(this.checkIdleTime, this.idleTime*1000);
         getProducts(this.state.page, this.state.limit)
             .then(_products => {
                 this.setState({
