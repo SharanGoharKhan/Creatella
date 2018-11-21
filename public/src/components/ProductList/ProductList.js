@@ -8,21 +8,27 @@ class ProductList extends Component {
     state = {
         filters: [
             {
+                id: 0,
                 title: 'size',
                 selected: false,
                 key: 'location'
             },
             {
+                id: 1,
                 title: 'price',
                 selected: false,
                 key: 'location'
             },
             {
+                id: 2,
                 title: 'id',
                 selected: false,
                 key: 'location'
             }
         ]
+    }
+    toggleSelected = (id,title) => {
+        console.log(`toggleSelected id:  ${id} and key: ${title}`)
     }
     render() {
         const productItem = this.props.products.map((product) => {
@@ -36,7 +42,8 @@ class ProductList extends Component {
                 <div className="ProductSelect">
                     <Select 
                     title="Sort by"
-                    list={this.state.filters} />
+                    list={this.state.filters} 
+                    toggleItem={this.toggleSelected}/>
                 </div>
                 <div className="ProductList">
                     {productItem}

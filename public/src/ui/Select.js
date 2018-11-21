@@ -19,8 +19,10 @@ class Select extends Component {
     render() {
         let list_items
         if(this.state.listOpen) {
-            list_items = this.props.list.map((item,index) => {
-                return <li key={index} className="dd-list-item">{item.title}</li>
+            list_items = this.props.list.map((item) => {
+                return <li key={item.title}  
+                onClick={()=> this.props.toggleItem(item.id,item.title)} 
+                className="dd-list-item">{item.title}</li>
             })
         } else {
             list_items = null
