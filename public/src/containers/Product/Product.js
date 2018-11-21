@@ -10,25 +10,57 @@ class Product extends Component {
         products: [],
         loading: true
     }
+    constructor(props) {
+        super(props)
+        this.lastActiveTime = new Date();
+        this.idleTime = 3
+    }
+    listenToWindowEvents = () => {
+        window.onclick = () => {
+            this.lastActiveTime = Date.now();
+        };
+        window.onmousemove = () => {
+            this.lastActiveTime = Date.now();
+        };
+        window.onkeypress = () => {
+            this.lastActiveTime = Date.now();
+        };
+        window.onscroll = () => {
+            this.lastActiveTime = Date.now();
+        };
+    }
+    CheckIdleTime = () => {
+        let dateNowTime = new Date().getTime();
+        let lastActiveTime = new Date(this.lastActiveTime).getTime();
+        let remTime = Math.floor((dateNowTime - lastActiveTime) / 1000);
+        if (remTime>this.idleTime) {
+            this.setState(prevState => ({
+              page: prevState.page + 1  
+            }))
+            getProducts(this.state.page,this.state.limit)
+        }
+    }
     componentDidMount() {
-        getProducts(this.state.page,this.state.limit)
-        .then(_products => {
-            this.setState({
-                products: _products,
-                loading: false
+        this.listenToWindowEvents()
+        window.setInterval(this.CheckIdleTime, this.idleTime*1000);
+        getProducts(this.state.page, this.state.limit)
+            .then(_products => {
+                this.setState({
+                    products: _products,
+                    loading: false
+                })
             })
-        })
-        .catch(err=>{
-            console.log(err)
-        })
+            .catch(err => {
+                console.log(err)
+            })
     }
     render() {
         let productList;
-        if(this.state.loading) {
+        if (this.state.loading) {
             productList = <h3>Loading...</h3>
         } else {
-            productList = <ProductList 
-            products={this.state.products}/>
+            productList = <ProductList
+                products={this.state.products} />
         }
         return (
             <div>
