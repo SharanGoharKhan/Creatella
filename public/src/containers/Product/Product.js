@@ -35,9 +35,14 @@ class Product extends Component {
         let remTime = Math.floor((dateNowTime - lastActiveTime) / 1000);
         if (remTime>this.idleTime) {
             this.setState(prevState => ({
-              page: prevState.page + 1  
+              page: prevState.page + 1
             }))
             getProducts(this.state.page,this.state.limit)
+            .then(_products => {
+                this.setState(prevState => ({
+                    products: [...prevState.products,..._products]
+                }))
+            })
         }
     }
     componentDidMount() {
