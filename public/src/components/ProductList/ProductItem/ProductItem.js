@@ -1,5 +1,8 @@
 import React from 'react'
 import './ProductItem.css'
+import currencyFormatter from '../../../utilities/currencyFormatter'
+import convertDateToRelative from '../../../utilities/dateConvertor'
+
 const productItem = (props) => {
     return (
         <div className="ProductItem">
@@ -11,10 +14,10 @@ const productItem = (props) => {
                     Size {props.product.size}
                 </span>
                 <span className="ProductItem--card-price">
-                    {props.product.price}
+                    {currencyFormatter.format(props.product.price)}
                 </span>
                 <p className="ProductItem--card-date">
-                    Added On: {props.product.date}
+                    Date: {convertDateToRelative(new Date(props.product.date))}
                 </p>
             </div>
         </div>
