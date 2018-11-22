@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './ProductList.css'
 import ProductItem from './ProductItem/ProductItem'
-import Select from '../../ui/Select'
+import Select from '../../ui/Select/Select'
 
 class ProductList extends Component {
 

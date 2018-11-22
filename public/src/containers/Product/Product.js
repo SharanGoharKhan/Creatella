@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import getProducts from '../../utilities/products'
 import ProductList from '../../components/ProductList/ProductList'
+import Loader from '../../ui/Loader/Loader'
 
 class Product extends Component {
 
@@ -113,7 +114,7 @@ class Product extends Component {
             endOfProducts = <p>End of Catalogue</p>
         }
         if (this.state.loading) {
-            loading = <h3>Loading...</h3>
+            loading = <Loader/>
         }
         productList = <ProductList
             products={this.state.products}
