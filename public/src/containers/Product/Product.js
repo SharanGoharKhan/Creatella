@@ -16,8 +16,36 @@ class Product extends Component {
     constructor(props) {
         super(props)
         this.lastActiveTime = new Date();
-        this.idleTime = 1
+        this.idleTime = 3
         this.interval = null
+    }
+    getMoreProducts(showLoadingSpinner=false) {
+        if(showLoadingSpinner) {
+            this.setState({
+                loading: true
+            })
+        }
+        this.setState(prevState => ({
+            page: prevState.page + 1
+        }))
+        getProducts(this.state.page, this.state.limit)
+            .then(_products => {
+                if (_products.length === 0) {
+                    clearInterval(this.interval)
+                    this.setState(prevState => ({
+                        isProductsFinished: !prevState.isProductsFinished,
+                    }))
+                }
+                else
+                    this.setState(prevState => ({
+                        products: [...prevState.products, ..._products],
+                    }))
+                    if(showLoadingSpinner) {
+                        this.setState({
+                            loading: false
+                        })
+                    }
+            })
     }
     listenToWindowEvents = () => {
         window.onclick = () => {
@@ -38,22 +66,7 @@ class Product extends Component {
         let lastActiveTime = new Date(this.lastActiveTime).getTime();
         let remTime = Math.floor((dateNowTime - lastActiveTime) / 1000);
         if (remTime > this.idleTime) {
-            this.setState(prevState => ({
-                page: prevState.page + 1
-            }))
-            getProducts(this.state.page, this.state.limit)
-                .then(_products => {
-                    if (_products.length === 0) {
-                        clearInterval(this.interval)
-                        this.setState(prevState => ({
-                            isProductsFinished: !prevState.isProductsFinished
-                        }))
-                    }
-                    else
-                        this.setState(prevState => ({
-                            products: [...prevState.products, ..._products]
-                        }))
-                })
+            this.getMoreProducts()
         }
     }
     componentDidMount() {
@@ -75,6 +88,10 @@ class Product extends Component {
                 this.refs.iScroll.scrollHeight
             ) {
                 if (!this.props.loading) {
+                    if (this.state.products.length <= this.state.lastIndex) {
+                        let showLoading = true
+                        this.getMoreProducts(showLoading)
+                    }
                     this.setState(prevState => ({
                         lastIndex: prevState.lastIndex + 15
                     }))
@@ -91,20 +108,22 @@ class Product extends Component {
     render() {
         let productList;
         let endOfProducts;
-        if(this.state.bottom) {
+        let loading;
+        if (this.state.bottom) {
             endOfProducts = <p>End of Catalogue</p>
         }
         if (this.state.loading) {
-            productList = <h3>Loading...</h3>
-        } else {
-            productList = <ProductList
-                products={this.state.products}
-                lastIndex={this.state.lastIndex} />
+            loading = <h3>Loading...</h3>
         }
+        productList = <ProductList
+            products={this.state.products}
+            lastIndex={this.state.lastIndex} />
+
         return (
             <div ref='iScroll'
-            style={{height:'550px',overflow: "auto" }}>
+                style={{ height: '550px', overflow: "auto" }}>
                 {productList}
+                {loading}
                 {endOfProducts}
             </div>
         )
