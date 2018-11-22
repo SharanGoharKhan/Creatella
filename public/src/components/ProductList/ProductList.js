@@ -25,11 +25,13 @@ class ProductList extends Component {
         console.log(`toggleSelected id:  ${id} and key: ${title}`)
     }
     render() {
-        const productItem = this.props.products.map((product) => {
-            return <ProductItem
+        const productItem = this.props.products.map((product,index) => {
+            if (index < this.props.lastIndex) {
+                return <ProductItem
                 key={product.id}
                 product={product}
-            />
+            /> 
+            } else return null
         })
         return (
             <div>
