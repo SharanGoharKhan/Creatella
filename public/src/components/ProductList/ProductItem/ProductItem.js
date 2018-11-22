@@ -12,10 +12,10 @@ const productItem = (props) => {
                         <h3 style={{ fontSize: props.product.size }}>{props.product.face}</h3>
                     </div>
                     <span className="ProductItem--card-size">
-                        Size {props.product.size}
+                        Size: {props.product.size}
                     </span>
                     <span className="ProductItem--card-price">
-                        {currencyFormatter.format(props.product.price)}
+                        Price: {currencyFormatter.format(props.product.price)}
                     </span>
                     <p className="ProductItem--card-date">
                         Date: {convertDateToRelative(new Date(props.product.date))}

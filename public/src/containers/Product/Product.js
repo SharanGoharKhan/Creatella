@@ -111,7 +111,7 @@ class Product extends Component {
         let endOfProducts;
         let loading;
         if (this.state.bottom) {
-            endOfProducts = <p>End of Catalogue</p>
+            endOfProducts = <p>~ end of catalogue ~</p>
         }
         if (this.state.loading) {
             loading = <Loader/>
