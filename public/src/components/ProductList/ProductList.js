@@ -30,6 +30,7 @@ class ProductList extends Component {
                 return <ProductItem
                 key={product.id}
                 product={product}
+                index={index}
             /> 
             } else return null
         })
