@@ -24,7 +24,7 @@ const productItem = (props) => {
             ) : (
                     <div className="ProductItem--image">
                         <p className="ProductItem--image-title">But first, a word from our sponsors:</p>
-                        <img className="ProductItem--image-pic" src={"http://localhost:3000/ads/?r=1"} alt={"Ad"} />
+                        <img className="ProductItem--image-pic" src={`http://localhost:3000/ads/?r=${Math.floor((Math.random() * 100) + 1)}`} alt={"Ad"} />
                     </div>
                 )}
 
