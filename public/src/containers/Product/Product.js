@@ -31,7 +31,6 @@ class Product extends Component {
                     loading: false,
                     products: _products
                 })
-                console.log(_products)
             })
             .catch(err => {
                 this.setState({
