@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import getProducts from '../../utilities/products'
+import { getProducts, getAllSortedProducts } from '../../utilities/products'
 import ProductList from '../../components/ProductList/ProductList'
 import Loader from '../../ui/Loader/Loader'
 
@@ -17,11 +17,31 @@ class Product extends Component {
     constructor(props) {
         super(props)
         this.lastActiveTime = new Date();
-        this.idleTime = 3
+        this.idleTime = 10
         this.interval = null
     }
-    getMoreProducts(showLoadingSpinner=false) {
-        if(showLoadingSpinner) {
+    handleSelectChanged = (title) => {
+        this.setState({
+            loading: true,
+            products: []
+        })
+        getAllSortedProducts(title)
+            .then(_products => {
+                this.setState({
+                    loading: false,
+                    products: _products
+                })
+                console.log(_products)
+            })
+            .catch(err => {
+                this.setState({
+                    loading: false
+                })
+                console.log(err)
+            })
+    }
+    getMoreProducts(showLoadingSpinner = false) {
+        if (showLoadingSpinner) {
             this.setState({
                 loading: true
             })
@@ -41,11 +61,11 @@ class Product extends Component {
                     this.setState(prevState => ({
                         products: [...prevState.products, ..._products],
                     }))
-                    if(showLoadingSpinner) {
-                        this.setState({
-                            loading: false
-                        })
-                    }
+                if (showLoadingSpinner) {
+                    this.setState({
+                        loading: false
+                    })
+                }
             })
     }
     listenToWindowEvents = () => {
@@ -114,18 +134,21 @@ class Product extends Component {
             endOfProducts = <p>~ end of catalogue ~</p>
         }
         if (this.state.loading) {
-            loading = <Loader/>
+            loading = <Loader />
         }
         productList = <ProductList
+            selectChanged={this.handleSelectChanged}
             products={this.state.products}
             lastIndex={this.state.lastIndex} />
 
         return (
             <div ref='iScroll'
-                style={{ height: '550px', overflow: "auto" }}>
+                style={{ height: '550px', overflow: 'auto' }}>
                 {productList}
-                {loading}
-                {endOfProducts}
+                <div style={{display: 'flex',justifyContent:'center'}}>
+                    {loading}
+                    {endOfProducts}
+                </div>
             </div>
         )
     }

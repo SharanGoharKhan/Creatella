@@ -22,7 +22,7 @@ class ProductList extends Component {
         ]
     }
     toggleSelected = (id,title) => {
-        console.log(`toggleSelected id:  ${id} and key: ${title}`)
+        this.props.selectChanged(title)
     }
     render() {
         const productItem = this.props.products.map((product,index) => {
